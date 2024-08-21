@@ -1,0 +1,8 @@
+/Users/s-alpha/tech-support-example/.utmp/Debug/2w45z2lz/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/s-alpha/tech-support-example/.utmp/Debug/2w45z2lz/armeabi-v7a/CMakeFiles/rebuild_cache.dir
+/Users/s-alpha/tech-support-example/.utmp/Debug/2w45z2lz/armeabi-v7a/GameActivity/CMakeFiles/game.dir
+/Users/s-alpha/tech-support-example/.utmp/Debug/2w45z2lz/armeabi-v7a/GameActivity/CMakeFiles/edit_cache.dir
+/Users/s-alpha/tech-support-example/.utmp/Debug/2w45z2lz/armeabi-v7a/GameActivity/CMakeFiles/rebuild_cache.dir
+/Users/s-alpha/tech-support-example/.utmp/Debug/2w45z2lz/armeabi-v7a/FramePacing/CMakeFiles/swappywrapper.dir
+/Users/s-alpha/tech-support-example/.utmp/Debug/2w45z2lz/armeabi-v7a/FramePacing/CMakeFiles/edit_cache.dir
+/Users/s-alpha/tech-support-example/.utmp/Debug/2w45z2lz/armeabi-v7a/FramePacing/CMakeFiles/rebuild_cache.dir
