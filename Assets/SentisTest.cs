@@ -12,6 +12,9 @@ public class SentisTest : MonoBehaviour
     private IWorker _engineCPU;
     private IWorker _engineGPU;
     private Stopwatch _stopwatch;
+    private IEnumerator _enumCPU;
+    private IEnumerator _enumGPU;
+
 
     // Start is called before the first frame update
     void Start()
@@ -27,11 +30,21 @@ public class SentisTest : MonoBehaviour
     void Update()
     {
         _stopwatch.Restart();
-        _engineCPU.Execute(_inputTensor); // schedule execution
+        bool hasMoreCPU = false;
+        _enumCPU = _engineCPU.ExecuteLayerByLayer(_inputTensor);
+        for (int i=0;i<100000;i++)
+        {
+            hasMoreCPU = _enumCPU.MoveNext();
+            if (!hasMoreCPU) break;
+        }
+        _stopwatch.Stop();
+        print("cpu inference : " + _stopwatch.ElapsedMilliseconds + "ms");
+        _stopwatch.Restart();
+        // _engineCPU.Execute(_inputTensor); // schedule execution
         var outputTensorCPU = _engineCPU.PeekOutput("scores") as TensorFloat;
         outputTensorCPU.ToReadOnlyArray();
         _stopwatch.Stop();
-        print("cpu inference & download time (1st output): " + _stopwatch.ElapsedMilliseconds + "ms");
+        print("cpu download time (1st output): " + _stopwatch.ElapsedMilliseconds + "ms");
         _stopwatch.Restart();
         var outputTensorCPU2 = _engineCPU.PeekOutput("boxes") as TensorFloat;
         outputTensorCPU2.ToReadOnlyArray();
@@ -40,12 +53,22 @@ public class SentisTest : MonoBehaviour
         
         
         _stopwatch.Restart();
-        _engineGPU.Execute(_inputTensor); // schedule execution
+        bool hasMoreGPU = false;
+        _enumGPU = _engineGPU.ExecuteLayerByLayer(_inputTensor);
+        for (int i=0;i<100000;i++)
+        {
+            hasMoreGPU = _enumGPU.MoveNext();
+            if (!hasMoreGPU) break;
+        }
+        _stopwatch.Stop();
+        print("gpu inference : " + _stopwatch.ElapsedMilliseconds + "ms");
+        _stopwatch.Restart();
+        // _engineGPU.Execute(_inputTensor); // schedule execution
         var outputTensorGPU = _engineGPU.PeekOutput("scores") as TensorFloat;
         outputTensorGPU.CompleteOperationsAndDownload();
         outputTensorGPU.ToReadOnlyArray();
         _stopwatch.Stop();
-        print("gpu inference & download time (1st output): " + _stopwatch.ElapsedMilliseconds + "ms");
+        print("gpu download time (1st output): " + _stopwatch.ElapsedMilliseconds + "ms");
         _stopwatch.Restart();
         var outputTensorGPU2 = _engineGPU.PeekOutput("boxes") as TensorFloat;
         outputTensorGPU2.CompleteOperationsAndDownload();
