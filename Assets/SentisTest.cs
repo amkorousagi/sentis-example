@@ -31,7 +31,12 @@ public class SentisTest : MonoBehaviour
         var outputTensorCPU = _engineCPU.PeekOutput("scores") as TensorFloat;
         outputTensorCPU.ToReadOnlyArray();
         _stopwatch.Stop();
-        print("cpu inference time : " + _stopwatch.ElapsedMilliseconds + "ms");
+        print("cpu inference & download time (1st output): " + _stopwatch.ElapsedMilliseconds + "ms");
+        _stopwatch.Restart();
+        var outputTensorCPU2 = _engineCPU.PeekOutput("boxes") as TensorFloat;
+        outputTensorCPU2.ToReadOnlyArray();
+        _stopwatch.Stop();
+        print("cpu download time (2nd output): " + _stopwatch.ElapsedMilliseconds + "ms");
         
         
         _stopwatch.Restart();
@@ -40,7 +45,14 @@ public class SentisTest : MonoBehaviour
         outputTensorGPU.CompleteOperationsAndDownload();
         outputTensorGPU.ToReadOnlyArray();
         _stopwatch.Stop();
-        print("gpu inference time : " + _stopwatch.ElapsedMilliseconds + "ms");
+        print("gpu inference & download time (1st output): " + _stopwatch.ElapsedMilliseconds + "ms");
+        _stopwatch.Restart();
+        var outputTensorGPU2 = _engineGPU.PeekOutput("boxes") as TensorFloat;
+        outputTensorGPU2.CompleteOperationsAndDownload();
+        outputTensorGPU2.ToReadOnlyArray();
+        _stopwatch.Stop();
+        print("gpu download time (2nd output): " + _stopwatch.ElapsedMilliseconds + "ms");
+
 
     }
 }
